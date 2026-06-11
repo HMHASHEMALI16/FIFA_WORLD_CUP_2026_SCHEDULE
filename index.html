@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<style>
+    @import url('');
+
+    /* আপলোড করা ইমোজি ফন্ট যুক্ত করা হলো */
+    @font-face {
+        font-family: 'TwemojiFlags';
+        src: url('Segoe.UI.Emoji.with.Twemoji.Flags.ttf') format('truetype');
+    }
+
+    @page {
+        size: 484mm 732mm;
+        margin: 0mm;
+        background-color: #f4f6f8;
+    }
+    
+    body {
+        font-family: 'Noto Sans Bengali', 'TwemojiFlags', 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        font-size: 11pt;
+        line-height: 1.1; 
+    }
+
+    .header-banner {
+        background: linear-gradient(135deg, #001f3f, #003f7f);
+        color: #ffffff;
+        text-align: center;
+        padding: 15px 5px; 
+        border-bottom: 5px solid #28c76f;
+    }
+    
+    .header-banner h1 { margin: 0; font-size: 28pt; font-weight: 700; white-space: nowrap; }
+    
+    .content-container { padding: 8px 10px; } 
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #ffffff;
+        border-radius: 6px; 
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        table-layout: fixed; 
+    }
+
+    thead th {
+        background-color: #e8f4f8;
+        color: #1a202c;
+        font-weight: 700;
+        font-size: 10.5pt;
+        text-transform: uppercase;
+        padding: 4px 1px;
+        border-bottom: 2px solid #cbd5e1;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    tbody td {
+        padding: 1px 1px; 
+        border-bottom: 1px solid #e9ecef;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 10.5pt;
+    }
+
+    tbody tr:nth-child(even) { background-color: rgba(0, 0, 0, 0.03); }
+    
+    .pill-match {
+        background-color: #e63946;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 0 3px; 
+        border-radius: 3px; 
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .col-day, .col-date-bst, .col-time-bst {
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+    }
+
+    .col-day { color: #483D8B; font-weight: bold; }
+    .col-date-bst, .col-time-bst { color: rgba(0, 0, 0, 0.8); font-weight: bold; }
+
+    td.col-time-bst { text-align: right !important; padding-right: 1.5rem !important; padding-left: 0 !important; }
+    td.col-time-local { text-align: right !important; padding-right: 1.0rem !important; padding-left: 0 !important; }
+    th.col-time-bst, th.col-time-local { text-align: center !important; }
+
+    td.col-group { text-align: left !important; padding-left: 1.2rem !important; padding-right: 0 !important; }
+    th.col-group { text-align: center !important; }
+
+    td.col-venue { text-align: right !important; padding-right: 1.2rem !important; padding-left: 0 !important; }
+    th.col-venue { text-align: center !important; }
+
+    .pill-group {
+        color: #ffffff;
+        font-weight: bold;
+        padding: 2px 6px; 
+        border-radius: 3px; 
+        display: inline-block;
+        white-space: nowrap;
+        font-size: 10pt;
+    }
+
+    .col-match-teams { font-size: 110%; color: rgba(0, 0, 0, 0.8); font-weight: bold; width: 29%; padding: 0 !important; }
+    .team-wrapper { display: flex; align-items: center; width: 100%; height: 100%; }
+    .team-left { flex: 1; text-align: right; padding-right: 5px; }
+    .team-right { flex: 1; text-align: left; padding-left: 5px; }
+    .vs-text { font-size: 0.8em; color: rgba(0,0,0,0.5); font-weight: normal; flex: 0 0 auto; text-align: center; }
+
+    .col-venue { color: rgba(0, 0, 0, 0.8); font-weight: bold; width: 15%; }
+    .col-date-local, .col-time-local { color: #006400; font-weight: bold; }
+    
+    th.col-match-no, td.col-match-no { width: 6%; }
+    th.col-day, td.col-day { width: 4%; }
+    th.col-date-bst, td.col-date-bst { width: 8%; }
+    th.col-time-bst, td.col-time-bst { width: 8%; }
+    th.col-group, td.col-group { width: 6%; }
+    th.col-match-teams, td.col-match-teams { width: 29%; }
+    th.col-venue, td.col-venue { width: 15%; }
+    th.col-date-local, td.col-date-local { width: 9%; }
+    th.col-time-local, td.col-time-local { width: 10%; }
+
+    .section-header {
+        color: rgba(0, 0, 0, 0.8); 
+        font-size: 13.7pt; 
+        font-weight: 700;
+        text-align: center;
+        padding: 5px 5px !important; 
+        border-bottom: 1px solid #cbd5e1;
+    }
+
+    .sh-group { background-color: #A4DB3566 !important; } 
+    .sh-r32   { background-color: #3AD57766 !important; } 
+    .sh-r16   { background-color: #00CEBA66 !important; } 
+    .sh-qf    { background-color: #1283AD66 !important; } 
+    .sh-sf    { background-color: #3A3B7B66 !important; } 
+    .sh-3rd   { background-color: #5C105066 !important; } 
+    .sh-final { background-color: #AE003F66 !important; } 
+
+    .groups-wrapper {
+        margin-top: 15px;
+        background: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        padding: 10px;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .groups-header {
+        background: #fff8e1; 
+        color: #d32f2f;
+        font-size: 13.7pt; 
+        font-weight: 700;
+        text-align: center;
+        padding: 4px 5px; 
+        border-bottom: 1px solid #cbd5e1;
+        margin: 0 0 10px 0;
+    }
+    
+    .groups-grid {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    .group-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 5px;
+        flex: 1 1 calc(100% / 12 - 5px); 
+    }
+    .group-badge {
+        display: inline-block;
+        padding: 1px 4px;
+        color: #ffffff;
+        font-weight: bold;
+        border-radius: 3px;
+        font-size: 10pt;
+        margin-bottom: 5px;
+        text-align: center;
+        width: calc(100% - 10px);
+    }
+    .team-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+    }
+    .team-list li {
+        font-size: 10.5pt;
+        padding: 3px 0;
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.8);
+    }
+    .team-list .flag { 
+        margin-right: 5px; 
+        font-size: 12pt; 
+        display: inline-flex; 
+        align-items: center;
+    }
+    
+    .team-list .code { 
+        color: rgba(0, 0, 0, 0.8); 
+        font-size: 0.9em; 
+        margin-left: 4px; 
+        font-weight: bold; 
+    }
+
+    .gr-a { background-color: #ffffff; border-color: #F40131; border-width: 2px; } .bg-a { background-color: #F40131; color: #ffffff !important; }
+    .gr-b { background-color: #ffffff; border-color: #FF4512; border-width: 2px; } .bg-b { background-color: #FF4512; color: #ffffff !important; }
+    .gr-c { background-color: #ffffff; border-color: #FF8201; border-width: 2px; } .bg-c { background-color: #FF8201; color: #ffffff !important; }
+    .gr-d { background-color: #ffffff; border-color: #FEC200; border-width: 2px; } .bg-d { background-color: #FEC200; color: #ffffff !important; }
+    .gr-e { background-color: #ffffff; border-color: #F3DE21; border-width: 2px; } .bg-e { background-color: #F3DE21; color: #ffffff !important; }
+    .gr-f { background-color: #ffffff; border-color: #A4DB35; border-width: 2px; } .bg-f { background-color: #A4DB35; color: #ffffff !important; }
+    .gr-g { background-color: #ffffff; border-color: #3AD577; border-width: 2px; } .bg-g { background-color: #3AD577; color: #ffffff !important; }
+    .gr-h { background-color: #ffffff; border-color: #00CEBA; border-width: 2px; } .bg-h { background-color: #00CEBA; color: #ffffff !important; }
+    .gr-i { background-color: #ffffff; border-color: #1283AD; border-width: 2px; } .bg-i { background-color: #1283AD; color: #ffffff !important; }
+    .gr-j { background-color: #ffffff; border-color: #3A3B7B; border-width: 2px; } .bg-j { background-color: #3A3B7B; color: #ffffff !important; }
+    .gr-k { background-color: #ffffff; border-color: #5C1050; border-width: 2px; } .bg-k { background-color: #5C1050; color: #ffffff !important; }
+    .gr-l { background-color: #ffffff; border-color: #AE003F; border-width: 2px; } .bg-l { background-color: #AE003F; color: #ffffff !important; }
+</style>
+</head>
+<body>
+    <div class="header-banner">
+        <h1>ফিফা বিশ্বকাপ ২০২৬ - পূর্ণাঙ্গ সময়সূচি</h1>
+    </div>
+    
+    <div class="content-container">
+        <table>
+
+            <thead>
+                <tr>
+                    <th class="col-match-no">নম্বর</th>
+                    <th class="col-day">বার</th>
+                    <th class="col-date-bst">তারিখ<br>(BST, UTC+6)</th>
+                    <th class="col-time-bst">সময়<br>(BST, UTC+6)</th>
+                    <th class="col-group">গ্রুপ</th>
+                    <th class="col-match-teams">ম্যাচ</th>
+                    <th class="col-venue">ভেন্যু ও দেশ</th>
+                    <th class="col-date-local">ভেন্যুর তারিখ</th>
+                    <th class="col-time-local">ভেন্যুর সময়</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr><td colspan="9" class="section-header sh-group">গ্রুপ পর্ব</td></tr>
+
+        <tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১২ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">মেক্সিকো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MEX)</span> 🇲🇽</span><span class="vs-text">বনাম</span><span class="team-right">🇿🇦 দ. আফ্রিকা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(RSA)</span></span></div></td>
+            <td class="col-venue">মেক্সিকো সিটি স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">১১ জুন</td>
+            <td class="col-time-local">দুপুর ০১:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১২ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">দ. কোরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KOR)</span> 🇰🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇿 চেক প্রজা. <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CZE)</span></span></div></td>
+            <td class="col-venue">গুয়াদালাজারা স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">১১ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">১৩ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কানাডা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CAN)</span> 🇨🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇧🇦 বসনিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BIH)</span></span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">১২ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">১৩ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">যুক্তরাষ্ট্র <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(USA)</span> 🇺🇸</span><span class="vs-text">বনাম</span><span class="team-right">🇵🇾 প্যারাগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAR)</span></span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১২ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৪ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কাতার <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(QAT)</span> 🇶🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇭 সুইজারল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SUI)</span></span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৩ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৪ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ব্রাজিল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BRA)</span> 🇧🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇲🇦 মরক্কো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MAR)</span></span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৩ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৪ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">হাইতি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(HAI)</span> 🇭🇹</span><span class="vs-text">বনাম</span><span class="team-right">🏴󠁧󠁢󠁳󠁣󠁴󠁿 স্কটল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SCO)</span></span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৩ জুন</td>
+            <td class="col-time-local">রাত ০৯:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৪ জুন</td>
+            <td class="col-time-bst">সকাল ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">অস্ট্রেলিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUS)</span> 🇦🇺</span><span class="vs-text">বনাম</span><span class="team-right">🇹🇷 তুরস্ক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUR)</span></span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">১৩ জুন</td>
+            <td class="col-time-local">রাত ০৯:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৪ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">জার্মানি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GER)</span> 🇩🇪</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇼 কুরাসাও <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CUW)</span></span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৪ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">১৫ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নেদারল্যান্ডস <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NED)</span> 🇳🇱</span><span class="vs-text">বনাম</span><span class="team-right">🇯🇵 জাপান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JPN)</span></span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৪ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১১</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">১৫ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">আইভরি কোস্ট <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CIV)</span> 🇨🇮</span><span class="vs-text">বনাম</span><span class="team-right">🇪🇨 ইকুয়েডর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ECU)</span></span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৪ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১২</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">১৫ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">সুইডেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SWE)</span> 🇸🇪</span><span class="vs-text">বনাম</span><span class="team-right">🇹🇳 তিউনিসিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUN)</span></span></div></td>
+            <td class="col-venue">মন্টেরে স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">১৪ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৩</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">১৫ জুন</td>
+            <td class="col-time-bst">রাত ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">স্পেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ESP)</span> 🇪🇸</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇻 কেপ ভার্দে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CPV)</span></span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৫ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৪</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">১৬ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">বেলজিয়াম <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BEL)</span> 🇧🇪</span><span class="vs-text">বনাম</span><span class="team-right">🇪🇬 মিশর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(EGY)</span></span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৫ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৫</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">১৬ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">সৌদি আরব <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KSA)</span> 🇸🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇺🇾 উরুগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(URU)</span></span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৫ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৬</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">১৬ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইরান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRN)</span> 🇮🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇳🇿 নিউজিল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NZL)</span></span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৫ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৭</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৭ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ফ্রান্স <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(FRA)</span> 🇫🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇳 সেনেগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SEN)</span></span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৬ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৮</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৭ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইরাক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRQ)</span> 🇮🇶</span><span class="vs-text">বনাম</span><span class="team-right">🇳🇴 নরওয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NOR)</span></span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৬ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১৯</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৭ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">আর্জেন্টিনা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ARG)</span> 🇦🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇩🇿 আলজেরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ALG)</span></span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৬ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২০</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৭ জুন</td>
+            <td class="col-time-bst">সকাল ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">অস্ট্রিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUT)</span> 🇦🇹</span><span class="vs-text">বনাম</span><span class="team-right">🇯🇴 জর্ডান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JOR)</span></span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৬ জুন</td>
+            <td class="col-time-local">রাত ০৯:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৩</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৭ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">পর্তুগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(POR)</span> 🇵🇹</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇩 কঙ্গো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COD)</span></span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৭ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২২</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">১৮ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইংল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ENG)</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="vs-text">বনাম</span><span class="team-right">🇭🇷 ক্রোয়েশিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CRO)</span></span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৭ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২১</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">১৮ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ঘানা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GHA)</span> 🇬🇭</span><span class="vs-text">বনাম</span><span class="team-right">🇵🇦 পানামা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAN)</span></span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">১৭ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৪</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">১৮ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">উজবেকিস্তান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(UZB)</span> 🇺🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇴 কলম্বিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COL)</span></span></div></td>
+            <td class="col-venue">মেক্সিকো সিটি স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">১৭ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৫</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">১৮ জুন</td>
+            <td class="col-time-bst">রাত ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">চেক প্রজা. <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CZE)</span> 🇨🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇿🇦 দ. আফ্রিকা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(RSA)</span></span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৮ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-4)</td>
+        </tr>
+
+<! good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৬</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১৯ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+
+            <td class="col-match-teams"><div class="team-wrapper">
+
+<span class="team-left">সুইজারল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SUI)</span> 🇨🇭</span>
+
+<span class="vs-text">বনাম</span>
+
+<span class="team-right">🇧🇦 বসনিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BIH)</span></span></div></td>
+
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৮ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৭</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১৯ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কানাডা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CAN)</span> 🇨🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇶🇦 কাতার <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(QAT)</span></span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">১৮ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৮</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১৯ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">মেক্সিকো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MEX)</span> 🇲🇽</span><span class="vs-text">বনাম</span><span class="team-right">🇰🇷 দ. কোরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KOR)</span></span></div></td>
+            <td class="col-venue">গুয়াদালাজারা স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">১৮ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩২</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২০ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">যুক্তরাষ্ট্র <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(USA)</span> 🇺🇸</span><span class="vs-text">বনাম</span><span class="team-right">🇦🇺 অস্ট্রেলিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUS)</span></span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৯ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩০</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২০ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">স্কটল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SCO)</span> 🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="vs-text">বনাম</span><span class="team-right">🇲🇦 মরক্কো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MAR)</span></span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৯ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ২৯</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২০ জুন</td>
+            <td class="col-time-bst">সকাল ০৬:৩০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ব্রাজিল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BRA)</span> 🇧🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇭🇹 হাইতি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(HAI)</span></span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৯ জুন</td>
+            <td class="col-time-local">রাত ০৮:৩০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩১</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২০ জুন</td>
+            <td class="col-time-bst">সকাল ০৯:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">তুরস্ক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUR)</span> 🇹🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇵🇾 প্যারাগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAR)</span></span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৯ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৫</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২০ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নেদারল্যান্ডস <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NED)</span> 🇳🇱</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇪 সুইডেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SWE)</span></span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২০ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৩</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২১ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">জার্মানি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GER)</span> 🇩🇪</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇮 আইভরি কোস্ট <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CIV)</span></span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২০ জুন</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৪</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২১ জুন</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইকুয়েডর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ECU)</span> 🇪🇨</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇼 কুরাসাও <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CUW)</span></span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২০ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৬</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২১ জুন</td>
+            <td class="col-time-bst">সকাল ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">তিউনিসিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUN)</span> 🇹🇳</span><span class="vs-text">বনাম</span><span class="team-right">🇯🇵 জাপান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JPN)</span></span></div></td>
+            <td class="col-venue">মন্টেরে স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২০ জুন</td>
+            <td class="col-time-local">রাত ১০:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৮</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২১ জুন</td>
+            <td class="col-time-bst">রাত ১০:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">স্পেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ESP)</span> 🇪🇸</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇦 সৌদি আরব <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KSA)</span></span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২১ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৯</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২২ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">বেলজিয়াম <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BEL)</span> 🇧🇪</span><span class="vs-text">বনাম</span><span class="team-right">🇮🇷 ইরান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRN)</span></span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২১ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৩৭</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২২ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">উরুগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(URU)</span> 🇺🇾</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇻 কেপ ভার্দে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CPV)</span></span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২১ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪০</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২২ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নিউজিল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NZL)</span> 🇳🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇪🇬 মিশর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(EGY)</span></span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২১ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-7)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৩</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২২ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">আর্জেন্টিনা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ARG)</span> 🇦🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇦🇹 অস্ট্রিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUT)</span></span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২২ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪২</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">২৩ জুন</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ফ্রান্স <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(FRA)</span> 🇫🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇮🇶 ইরাক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRQ)</span></span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২২ জুন</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪১</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">২৩ জুন</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নরওয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NOR)</span> 🇳🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇳 সেনেগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SEN)</span></span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২২ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৪</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">২৩ জুন</td>
+            <td class="col-time-bst">সকাল ০৯:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">জর্ডান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JOR)</span> 🇯🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇩🇿 আলজেরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ALG)</span></span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২২ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৭</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">২৩ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">পর্তুগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(POR)</span> 🇵🇹</span><span class="vs-text">বনাম</span><span class="team-right">🇺🇿 উজবেকিস্তান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(UZB)</span></span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৩ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৫</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">২৪ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইংল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ENG)</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="vs-text">বনাম</span><span class="team-right">🇬🇭 ঘানা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GHA)</span></span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৩ জুন</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৬</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">২৪ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">পানামা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAN)</span> 🇵🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇭🇷 ক্রোয়েশিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CRO)</span></span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২৩ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৮</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">২৪ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কলম্বিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COL)</span> 🇨🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇩 কঙ্গো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COD)</span></span></div></td>
+            <td class="col-venue">গুয়াদালাজারা স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২৩ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-6)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫১</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">সুইজারল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SUI)</span> 🇨🇭</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇦 কানাডা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CAN)</span></span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫২</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-b">গ্রুপ বি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">বসনিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BIH)</span> 🇧🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇶🇦 কাতার <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(QAT)</span></span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৪৯</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">স্কটল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SCO)</span> 🏴󠁧󠁢󠁳󠁣󠁴󠁿</span><span class="vs-text">বনাম</span><span class="team-right">🇧🇷 ব্রাজিল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BRA)</span></span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫০</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"><span class="pill-group bg-c">গ্রুপ সি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">মরক্কো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MAR)</span> 🇲🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇭🇹 হাইতি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(HAI)</span></span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৩</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">চেক প্রজা. <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CZE)</span> 🇨🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇲🇽 মেক্সিকো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(MEX)</span></span></div></td>
+            <td class="col-venue">মেক্সিকো সিটি স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-6)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৪</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">২৫ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"><span class="pill-group bg-a">গ্রুপ এ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">দ. আফ্রিকা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(RSA)</span> 🇿🇦</span><span class="vs-text">বনাম</span><span class="team-right">🇰🇷 দ. কোরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KOR)</span></span></div></td>
+            <td class="col-venue">মন্টেরে স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২৪ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-6)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৫</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কুরাসাও <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CUW)</span> 🇨🇼</span><span class="vs-text">বনাম</span><span class="team-right">🇨🇮 আইভরি কোস্ট <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CIV)</span></span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৬</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"><span class="pill-group bg-e">গ্রুপ ই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ইকুয়েডর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ECU)</span> 🇪🇨</span><span class="vs-text">বনাম</span><span class="team-right">🇩🇪 জার্মানি <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GER)</span></span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৭</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">জাপান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JPN)</span> 🇯🇵</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇪 সুইডেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SWE)</span></span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৮</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"><span class="pill-group bg-f">গ্রুপ এফ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">তিউনিসিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUN)</span> 🇹🇳</span><span class="vs-text">বনাম</span><span class="team-right">🇳🇱 নেদারল্যান্ডস <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NED)</span></span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ৬:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৫৯</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">তুরস্ক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(TUR)</span> 🇹🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇺🇸 যুক্তরাষ্ট্র <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(USA)</span></span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬০</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">২৬ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-d">গ্রুপ ডি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">প্যারাগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAR)</span> 🇵🇾</span><span class="vs-text">বনাম</span><span class="team-right">🇦🇺 অস্ট্রেলিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUS)</span></span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৫ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬১</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নরওয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NOR)</span> 🇳🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇫🇷 ফ্রান্স <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(FRA)</span></span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+        </tr>
+
+<! ↑ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬২</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"><span class="pill-group bg-i">গ্রুপ আই</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">সেনেগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(SEN)</span> 🇸🇳</span><span class="vs-text">বনাম</span><span class="team-right">🇮🇶 ইরাক <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRQ)</span></span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৫</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কেপ ভার্দে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CPV)</span> 🇨🇻</span><span class="vs-text">বনাম</span><span class="team-right">🇸🇦 সৌদি আরব <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(KSA)</span></span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৬</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"><span class="pill-group bg-h">গ্রুপ এইচ</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">উরুগুয়ে <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(URU)</span> 🇺🇾</span><span class="vs-text">বনাম</span><span class="team-right">🇪🇸 স্পেন <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ESP)</span></span></div></td>
+            <td class="col-venue">গুয়াদালাজারা স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৩</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">সকাল ০৯:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">মিশর <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(EGY)</span> 🇪🇬</span><span class="vs-text">বনাম</span><span class="team-right">🇮🇷 ইরান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(IRN)</span></span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৪</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">২৭ জুন</td>
+            <td class="col-time-bst">সকাল ০৯:০০</td>
+            <td class="col-group"><span class="pill-group bg-g">গ্রুপ জি</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">নিউজিল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(NZL)</span> 🇳🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇧🇪 বেলজিয়াম <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(BEL)</span></span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">২৬ জুন</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৭</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">পানামা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(PAN)</span> 🇵🇦</span><span class="vs-text">বনাম</span><span class="team-right">🏴󠁧󠁢󠁥󠁮󠁧󠁿 ইংল্যান্ড <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ENG)</span></span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৮</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"><span class="pill-group bg-l">গ্রুপ এল</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ক্রোয়েশিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(CRO)</span> 🇭🇷</span><span class="vs-text">বনাম</span><span class="team-right">🇬🇭 ঘানা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(GHA)</span></span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭১</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:৩০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কলম্বিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COL)</span> 🇨🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇵🇹 পর্তুগাল <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(POR)</span></span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:৩০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭২</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">ভোর ০৫:৩০</td>
+            <td class="col-group"><span class="pill-group bg-k">গ্রুপ কে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">কঙ্গো <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(COD)</span> 🇨🇩</span><span class="vs-text">বনাম</span><span class="team-right">🇺🇿 উজবেকিস্তান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(UZB)</span></span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:৩০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৬৯</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">আলজেরিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ALG)</span> 🇩🇿</span><span class="vs-text">বনাম</span><span class="team-right">🇦🇹 অস্ট্রিয়া <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(AUT)</span></span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">রাত ০৯:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭০</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">২৮ জুন</td>
+            <td class="col-time-bst">সকাল ০৮:০০</td>
+            <td class="col-group"><span class="pill-group bg-j">গ্রুপ জে</span></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">জর্ডান <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(JOR)</span> 🇯🇴</span><span class="vs-text">বনাম</span><span class="team-right">🇦🇷 আর্জেন্টিনা <span style="color: rgba(0,0,0,0.7); font-weight: bold;">(ARG)</span></span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৭ জুন</td>
+            <td class="col-time-local">রাত ০৯:০০ (UTC-5)</td>
+        </tr>
+
+<! ↑ Good>
+
+<! ↓ Good >
+
+</tbody><tbody class="sec-r32"><tr><td colspan="9" class="section-header sh-r32">রাউন্ড অব ৩২</td></tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৩</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২৯ জুন</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">২ এ</span><span class="vs-text">বনাম</span><span class="team-right">২ বি</span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৮ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৬</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২৯ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ সি</span><span class="vs-text">বনাম</span><span class="team-right">২ এফ</span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৯ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৪</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">৩০ জুন</td>
+            <td class="col-time-bst">রাত ০২:৩০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ ই</span><span class="vs-text">বনাম</span><span class="team-right">৩ এ/বি/সি/ডি/এফ</span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">২৯ জুন</td>
+            <td class="col-time-local">বিকাল ০৪:৩০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৫</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">৩০ জুন</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ এফ</span><span class="vs-text">বনাম</span><span class="team-right">২ সি</span></div></td>
+            <td class="col-venue">মন্টেরে স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">২৯ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৮</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">৩০ জুন</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">২ ই</span><span class="vs-text">বনাম</span><span class="team-right">২ আই</span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">৩০ জুন</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<! ↓ Good >
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৭</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">০১ জুলাই</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ আই</span><span class="vs-text">বনাম</span><span class="team-right">৩ সি/ডি/এফ/জি/এইচ</span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">৩০ জুন</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<! ↓ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৭৯</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">০১ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ এ</span><span class="vs-text">বনাম</span><span class="team-right">৩ সি/ই/এফ/এইচ/আই</span></div></td>
+            <td class="col-venue">মেক্সিকো সিটি স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">৩০ জুন</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-6)</td>
+        </tr>
+
+<! ↓ Good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮০</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">০১ জুলাই</td>
+            <td class="col-time-bst">রাত ১০:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ এল</span><span class="vs-text">বনাম</span><span class="team-right">৩ ই/এইচ/আই/জে/কে</span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০১ জুলাই</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮২</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">০২ জুলাই</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ জি</span><span class="vs-text">বনাম</span><span class="team-right">৩ এ/ই/এইচ/আই/জে</span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০১ জুলাই</td>
+            <td class="col-time-local">দুপুর ০১:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮১</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">০২ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ ডি</span><span class="vs-text">বনাম</span><span class="team-right">৩ বি/ই/এফ/আই/জে</span></div></td>
+            <td class="col-venue">সান ফ্রান্সিসকো স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০১ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৪</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">০৩ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ এইচ</span><span class="vs-text">বনাম</span><span class="team-right">২ জে</span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০২ জুলাই</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৩</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">০৩ জুলাই</td>
+            <td class="col-time-bst">ভোর ০৫:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">২ কে</span><span class="vs-text">বনাম</span><span class="team-right">২ এল</span></div></td>
+            <td class="col-venue">টরন্টো স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">০২ জুলাই</td>
+            <td class="col-time-local">সন্ধ্যা ০৭:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৫</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">০৩ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৯:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ বি</span><span class="vs-text">বনাম</span><span class="team-right">৩ ই/এফ/জি/আই/জে</span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">০২ জুলাই</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-7)</td>
+        </tr>
+
+<! ↓ good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৮</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">০৪ জুলাই</td>
+            <td class="col-time-bst">মধ্যরাত ১২:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">২ ডি</span><span class="vs-text">বনাম</span><span class="team-right">২ জি</span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৩ জুলাই</td>
+            <td class="col-time-local">দুপুর ০১:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৬</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">০৪ জুলাই</td>
+            <td class="col-time-bst">ভোর ০৪:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ জে</span><span class="vs-text">বনাম</span><span class="team-right">২ এইচ</span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৩ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৭</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">০৪ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৭:৩০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">১ কে</span><span class="vs-text">বনাম</span><span class="team-right">৩ ডি/ই/আই/জে/এল</span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৩ জুলাই</td>
+            <td class="col-time-local">রাত ০৮:৩০ (UTC-5)</td>
+        </tr></tbody>
+
+<! ↓good>
+
+<tbody class="sec-r16"><tr><td colspan="9" class="section-header sh-r16">রাউন্ড অব ১৬</td></tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯০</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">০৪ জুলাই</td>
+            <td class="col-time-bst">রাত ১১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৭৩ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৭৫ বিজয়ী</span></div></td>
+            <td class="col-venue">হিউস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            
+<td class="col-date-local">০৪ জুলাই</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৮৯</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">০৫ জুলাই</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৭৪ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৭৭ বিজয়ী</span></div></td>
+            <td class="col-venue">ফিলাডেলফিয়া স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৪ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯১</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">০৬ জুলাই</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৭৬ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৭৮ বিজয়ী</span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৫ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯২</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">০৬ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৭৯ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৮০ বিজয়ী</span></div></td>
+            <td class="col-venue">মেক্সিকো সিটি স্টেডিয়াম, মেক্সিকো</td>
+            <td class="col-date-local">০৫ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৬:০০ (UTC-6)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৩</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">০৭ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৮৩ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৮৪ বিজয়ী</span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৬ জুলাই</td>
+            <td class="col-time-local">দুপুর ০২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৪</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">০৭ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৬:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৮১ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৮২ বিজয়ী</span></div></td>
+            <td class="col-venue">সিয়াটল স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৬ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-7)</td>
+        </tr>
+
+<! ↓ good>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৫</span></td>
+            <td class="col-day">মঙ্গলবার</td>
+            <td class="col-date-bst">০৭ জুলাই</td>
+            <td class="col-time-bst">রাত ১০:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৮৬ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৮৮ বিজয়ী</span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৭ জুলাই</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৬</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">০৮ জুলাই</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৮৫ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৮৭ বিজয়ী</span></div></td>
+            <td class="col-venue">ভ্যাঙ্কুভার স্টেডিয়াম, কানাডা</td>
+            <td class="col-date-local">০৭ জুলাই</td>
+            <td class="col-time-local">দুপুর ০১:০০ (UTC-7)</td>
+        </tr>
+
+<! ↓ Good>
+
+<tr><td colspan="9" class="section-header sh-qf">কোয়ার্টার ফাইনাল</td></tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৭</span></td>
+            <td class="col-day">শুক্রবার</td>
+            <td class="col-date-bst">১০ জুলাই</td>
+            <td class="col-time-bst">রাত ০২:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৮৯ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৯০ বিজয়ী</span></div></td>
+            <td class="col-venue">বোস্টন স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">০৯ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৪:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৮</span></td>
+            <td class="col-day">শনিবার</td>
+            <td class="col-date-bst">১১ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৯৩ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৯৪ বিজয়ী</span></div></td>
+            <td class="col-venue">লস অ্যাঞ্জেলেস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১০ জুলাই</td>
+            <td class="col-time-local">দুপুর ১২:০০ (UTC-7)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ৯৯</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১২ জুলাই</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৯১ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৯২ বিজয়ী</span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১১ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০০</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১২ জুলাই</td>
+            <td class="col-time-bst">সকাল ০৭:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৯৫ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৯৬ বিজয়ী</span></div></td>
+            <td class="col-venue">কানসাস সিটি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১১ জুলাই</td>
+            <td class="col-time-local">রাত ০৮:০০ (UTC-5)</td>
+        </tr>
+
+<tr><td colspan="9" class="section-header sh-sf">সেমিফাইনাল</td></tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০১</span></td>
+            <td class="col-day">বুধবার</td>
+            <td class="col-date-bst">১৫ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৯৭ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ৯৮ বিজয়ী</span></div></td>
+            <td class="col-venue">ডালাস স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৪ জুলাই</td>
+            <td class="col-time-local">দুপুর ০২:০০ (UTC-5)</td>
+        </tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০২</span></td>
+            <td class="col-day">বৃহস্পতিবার</td>
+            <td class="col-date-bst">১৬ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ৯৯ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ১০০ বিজয়ী</span></div></td>
+            <td class="col-venue">আটলান্টা স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৫ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+
+        </tr></tbody><tbody class="sec-3rd"><tr><td colspan="9" class="section-header sh-3rd">ব্রোঞ্জ ফাইনাল</td></tr><tr>
+
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০৩</span></td>
+            <td class="col-day">রবিবার</td>
+            <td class="col-date-bst">১৯ জুলাই</td>
+            <td class="col-time-bst">রাত ০৩:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ১০১ পরাজিত</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ১০২ পরাজিত</span></div></td>
+            <td class="col-venue">মিয়ামি স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৮ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৫:০০ (UTC-4)</td>
+
+        </tr></tbody><tbody class="sec-final"><tr><td colspan="9" class="section-header sh-final">ফাইনাল</td></tr>
+
+<tr>
+            <td class="col-match-no"><span class="pill-match">ম্যাচ ১০৪</span></td>
+            <td class="col-day">সোমবার</td>
+            <td class="col-date-bst">২০ জুলাই</td>
+            <td class="col-time-bst">রাত ০১:০০</td>
+            <td class="col-group"></td>
+            <td class="col-match-teams"><div class="team-wrapper"><span class="team-left">ম্যাচ ১০১ বিজয়ী</span><span class="vs-text">বনাম</span><span class="team-right">ম্যাচ ১০২ বিজয়ী</span></div></td>
+            <td class="col-venue">নিউ ইয়র্ক স্টেডিয়াম, যুক্তরাষ্ট্র</td>
+            <td class="col-date-local">১৯ জুলাই</td>
+            <td class="col-time-local">বিকাল ০৩:০০ (UTC-4)</td>
+        </tr>
+
+            </tbody>
+        </table>
+
+        <!-- ==========================================
+            ↓ Good গ্রুপ টেবিল সেকশন (এখান থেকে শুরু)
+             ========================================== -->
+        <div class="groups-wrapper">
+            <h2 class="groups-header">বিশ্বকাপ গ্রুপ সমূহ</h2>
+            <div class="groups-grid">
+                
+                <div class="group-card gr-a">
+                    <span class="group-badge bg-a">গ্রুপ এ</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇲🇽</span> মেক্সিকো</li>
+                        <li><span class="flag">🇿🇦</span> দ. আফ্রিকা</li>
+                        <li><span class="flag">🇰🇷</span> দ. কোরিয়া</li>
+                        <li><span class="flag">🇨🇿</span> চেক প্রজা.</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-b">
+                    <span class="group-badge bg-b">গ্রুপ বি</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇨🇦</span> কানাডা</li>
+                        <li><span class="flag">🇧🇦</span> বসনিয়া</li>
+                        <li><span class="flag">🇶🇦</span> কাতার</li>
+                        <li><span class="flag">🇨🇭</span> সুইজারল্যান্ড</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-c">
+                    <span class="group-badge bg-c">গ্রুপ সি</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇧🇷</span> ব্রাজিল</li>
+                        <li><span class="flag">🇲🇦</span> মরক্কো</li>
+                        <li><span class="flag">🇭🇹</span> হাইতি</li>
+                        <li><span class="flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> স্কটল্যান্ড</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-d">
+                    <span class="group-badge bg-d">গ্রুপ ডি</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇺🇸</span> যুক্তরাষ্ট্র</li>
+                        <li><span class="flag">🇵🇾</span> প্যারাগুয়ে</li>
+                        <li><span class="flag">🇦🇺</span> অস্ট্রেলিয়া</li>
+                        <li><span class="flag">🇹🇷</span> তুরস্ক</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-e">
+                    <span class="group-badge bg-e">গ্রুপ ই</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇩🇪</span> জার্মানি</li>
+                        <li><span class="flag">🇪🇨</span> ইকুয়েডর</li>
+                        <li><span class="flag">🇨🇮</span> আইভরি কোস্ট</li>
+                        <li><span class="flag">🇨🇼</span> কুরাসাও</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-f">
+                    <span class="group-badge bg-f">গ্রুপ এফ</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇳🇱</span> নেদারল্যান্ডস</li>
+                        <li><span class="flag">🇯🇵</span> জাপান</li>
+                        <li><span class="flag">🇸🇪</span> সুইডেন</li>
+                        <li><span class="flag">🇹🇳</span> তিউনিসিয়া</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-g">
+                    <span class="group-badge bg-g">গ্রুপ জি</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇧🇪</span> বেলজিয়াম</li>
+                        <li><span class="flag">🇪🇬</span> মিশর</li>
+                        <li><span class="flag">🇮🇷</span> ইরান</li>
+                        <li><span class="flag">🇳🇿</span> নিউজিল্যান্ড</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-h">
+                    <span class="group-badge bg-h">গ্রুপ এইচ</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇪🇸</span> স্পেন</li>
+                        <li><span class="flag">🇨🇻</span> কেপ ভার্দে</li>
+                        <li><span class="flag">🇸🇦</span> সৌদি আরব</li>
+                        <li><span class="flag">🇺🇾</span> উরুগুয়ে</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-i">
+                    <span class="group-badge bg-i">গ্রুপ আই</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇫🇷</span> ফ্রান্স</li>
+                        <li><span class="flag">🇸🇳</span> সেনেগাল</li>
+                        <li><span class="flag">🇮🇶</span> ইরাক</li>
+                        <li><span class="flag">🇳🇴</span> নরওয়ে</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-j">
+                    <span class="group-badge bg-j">গ্রুপ জে</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇦🇷</span> আর্জেন্টিনা</li>
+                        <li><span class="flag">🇩🇿</span> আলজেরিয়া</li>
+                        <li><span class="flag">🇦🇹</span> অস্ট্রিয়া</li>
+                        <li><span class="flag">🇯🇴</span> জর্ডান</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-k">
+                    <span class="group-badge bg-k">গ্রুপ কে</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🇵🇹</span> পর্তুগাল</li>
+                        <li><span class="flag">🇨🇩</span> কঙ্গো</li>
+                        <li><span class="flag">🇺🇿</span> উজবেকিস্তান</li>
+                        <li><span class="flag">🇨🇴</span> কলম্বিয়া</li>
+                    </ul>
+                </div>
+                
+                <div class="group-card gr-l">
+                    <span class="group-badge bg-l">গ্রুপ এল</span>
+                    <ul class="team-list">
+                        <li><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> ইংল্যান্ড </li>
+                        <li><span class="flag">🇭🇷</span> ক্রোয়েশিয়া</li>
+                        <li><span class="flag">🇬🇭</span> ঘানা</li>
+                        <li><span class="flag">🇵🇦</span> পানামা</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <!-- ==========================================
+             গ্রুপ টেবিল সেকশন (এখানে শেষ)
+             ========================================== -->
+
+    </div>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@900&display=swap" rel="stylesheet">
+
+<h3 style="text-align:center;font:500 1 rem 'Google Sans Flex',sans-serif;background:linear-gradient(45deg,#F00,#00F);-webkit-background-clip:text;-webkit-text-fill-color:transparent">HM HASHEM ALI</h3>
+</body>
+</html>
